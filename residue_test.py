@@ -34,7 +34,7 @@ B2 = array([Br(r,Z,0.5,10E3) for r in R])
 t1 = time.time()
 print(t1 - t0)
 
-plt.plot(R, B2)
+plt.plot(R, (B2-B1)/B2)
 
 Z = linspace(-10,10,10000)
 R = 0.0
@@ -49,4 +49,4 @@ B4 = array([Bz(R,z,0.5,10E3) for z in Z])
 t1 = time.time()
 print(t1 - t0)
 
-plt.plot(Z, B4)
+plt.plot(Z, (B4-B3)/B4)
