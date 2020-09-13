@@ -1,2 +1,2 @@
 # Magnetic Field of a Loop Current
- Cheap calculation of the magnetic field
+Fast and time-efficient calculation of the magnetic field of a circular loop current.
