@@ -9,7 +9,6 @@ from numpy import cos, linspace, array, sqrt
 from scipy.integrate import quad
 import matplotlib.pyplot as plt
 import time
-from scipy.special import ellipk, ellipe
 from scipy.constants import pi, mu_0
 from magnetic import Br, Bz
 
@@ -23,7 +22,7 @@ Br1 = lambda r,z,a,I: (mu_0*I/4/pi)*quad(dBr, 0, 2*pi, args=(r,z,a))[0]
 
 
 R = linspace(-10,10,100000)
-Z = 0.01
+Z = 0.1
 
 t0 = time.time()
 B1 = array([Br1(r,Z,0.5,10E3) for r in R])
@@ -35,10 +34,10 @@ B2 = array([Br(r,Z,0.5,10E3) for r in R])
 t1 = time.time()
 print(t1 - t0)
 
-plt.plot(R, B2 - B1)
+plt.plot(R, B2)
 
 Z = linspace(-10,10,10000)
-R = 0.51
+R = 0.0
 
 t0 = time.time()
 B3 = array([Bz1(R,z,0.5,10E3) for z in Z])
@@ -50,4 +49,4 @@ B4 = array([Bz(R,z,0.5,10E3) for z in Z])
 t1 = time.time()
 print(t1 - t0)
 
-plt.plot(Z, B4 - B3)
+plt.plot(Z, B4)

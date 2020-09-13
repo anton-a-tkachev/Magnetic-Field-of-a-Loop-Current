@@ -3,21 +3,19 @@ of a circular loop with electric current"""
 
 from scipy.constants import pi, mu_0
 from scipy.special import ellipk, ellipe
-from numpy import sqrt
+from numpy import sqrt, array
 
 # Argument for the elliptic integrals
-k = lambda r, z, a: 4*a*r/((a + r)**2 + z**2)
-
-# Axial magnetic field
-Hz = lambda r, z, a, i: i/2/pi/sqrt((a + r)**2 + z**2)*(ellipk(k(r,z,a)) + (a**2 - r**2 - z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a)))
-
-# Radial magnetic field
-Hr = lambda r, z, a, i: i/2/pi*z/r/sqrt((a + r)**2 + z**2)*(-ellipk(k(r,z,a)) + (a**2 + r**2 + z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a)))
+k = lambda r,z,a: 4*a*r/((a + r)**2 + z**2)
 
 # Axial magnetic flux
-def Bz(r, z, a, i, mu = 1):
-    return mu*mu_0*Hz(r, z, a, i)
+Bz = lambda r,z,a,i: mu_0*i/2/pi/sqrt((a + r)**2 + z**2)*(ellipk(k(r,z,a)) + (a**2 - r**2 - z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a)))
 
 # Radial magnetic flux
-def Br(r, z, a, i, mu = 1):
-    return mu*mu_0*Hr(r, z, a, i)
+Br = lambda r,z,a,i: mu_0*i/2/pi*z/r/sqrt((a + r)**2 + z**2)*(-ellipk(k(r,z,a)) + (a**2 + r**2 + z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a)))
+
+B = lambda r,z,a,i: array([Br(r,z,a,i), Bz(r,z,a,i)])
+
+# Magnetic field of a solenoid
+def SBz(ID, OD, DZ, W, I, NR, NZ):
+    pass
