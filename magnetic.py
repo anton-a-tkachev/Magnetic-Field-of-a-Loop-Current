@@ -12,10 +12,10 @@ mu0 = 4*np.pi*1E-7
 k = lambda r,z,a: 4*a*r/((a + r)**2 + z**2)
 
 # Axial magnetic flux
-Bz = lambda r,z,a,i: mu0*i/2/np.pi/np.sqrt((a + r)**2 + z**2)*(ellipk(k(r,z,a)) + (a**2 - r**2 - z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a)))
+Bz = lambda r,z,a,i: mu0*i/2/np.pi/np.sqrt((a + r)**2 + z**2)*(ellipk(k(r,z,a)) + (a**2 - r**2 - z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a))) if i != 0.0 else 0.0
 
 # Radial magnetic flux
-Br = lambda r,z,a,i: mu0*i/2/np.pi*z/r/np.sqrt((a + r)**2 + z**2)*(-ellipk(k(r,z,a)) + (a**2 + r**2 + z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a))) if r != 0.0 else 0.0
+Br = lambda r,z,a,i: mu0*i/2/np.pi*z/r/np.sqrt((a + r)**2 + z**2)*(-ellipk(k(r,z,a)) + (a**2 + r**2 + z**2)/((a - r)**2 + z**2)*ellipe(k(r,z,a))) if r != 0.0 and i != 0 else 0.0
 
 B = lambda r,z,a,i: np.array([Br(r,z,a,i), Bz(r,z,a,i)])
 
@@ -28,15 +28,15 @@ def BB(R, Z, ID, OD, DZ, W, I, NR, NZ):
     return BB
 
 t0 = time.time()
-B0 = BB(R=0.1,     # r of the observation point (m)
-        Z=0.0,     # z of the observation point (m)
-        ID=0.250,  # winding inner diameter (m)
-        OD=0.300,  # winding outer diameter (m)
-        DZ=0.230,  # winding depth along z-axis (m)
-        W=400,     # number of turns
-        I=2.16E3,  # current in the coil (A)
-        NR=10,     # number of layers along r-axis
-        NZ=40)     # number of layers along z-axis
+B0 = BB(R = 0.1,     # r of the observation point (m)
+        Z = 0.0,     # z of the observation point (m)
+        ID = 0.250,  # winding inner diameter (m)
+        OD = 0.300,  # winding outer diameter (m)
+        DZ = 0.230,  # winding depth along z-axis (m)
+        W = 400,     # number of turns
+        I = 2.16E3,  # current in the coil (A)
+        NR = 10,     # number of winding layers along r-axis
+        NZ = 40)     # number of winding layers along z-axis
 t1 = time.time()
 
 print(B0)
