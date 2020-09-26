@@ -8,20 +8,30 @@ me = m_e
 U = 30E3
 g = 1 + e*U/me/c**2
 
-AAA = lambda r,z: Ap(r, z - 0.200, 0.275, 50E3) + Ap(r, z - 0.8, 0.150, 10E3) + Ap(r, z - 2.500, 0.450, 96E3) + Ap(r, z - 3.500, 0.450, 480E3)
+AAA = lambda r,z: Ap(r, z - 0.200, 0.275, 10E3) + Ap(r, z - 0.8, 0.150, 10E3) + Ap(r, z - 2.500, 0.450, 96E3) + Ap(r, z - 3.500, 0.450, 480E3)
 
-BBB = lambda r,z: Bz(r, z - 0.200, 0.275, 50E3) + Bz(r, z - 0.8, 0.150, 10E3) + Bz(r, z - 2.500, 0.450, 96E3) + Bz(r, z - 3.500, 0.450, 480E3)
+BBB = lambda r,z: Bz(r, z - 0.200, 0.275, 10E3) + Bz(r, z - 0.8, 0.150, 10E3) + Bz(r, z - 2.500, 0.450, 96E3) + Bz(r, z - 3.500, 0.450, 480E3)
 
-P0 = e*AAA(0.020, 0.001)
+P0 = e*AAA(0.20, 0.000)
 
-Ueff = lambda r,z: P0**2/4/g/me/e*((2*e*AAA(r,z)/P0 - 1)**2 - 1)
+# Ueff = lambda r,z: P0**2/4/g/me/e*((2*e*AAA(r,z)/P0 - 1)**2 - 1)
+
+# Ueff = lambda r,z: -1/g/me*AAA(r,z)*(P0 - e*AAA(r,z))
+
+Ueff = lambda r,z: U*(P0 - e*AAA(r,z))**2/(g**2 - 1)/me**2/c**2
+
+# zlist = np.linspace(0.001, 4, 1000)
+# rlist = []
+# for z in zlist:
+#     f = lambda r: Ueff(r, z)
+#     rlist.append(fsolve(f, 0.1)[0])
 
 zlist = np.linspace(0.001, 4, 1000)
 rlist = np.linspace( 0.000001, 0.2, 1000)
 R, Z = np.meshgrid(rlist, zlist)
 F = Ueff(R,Z)
 fig,ax=plt.subplots(1,1)
-lvls = np.linspace(0, 1E3, 2)
+lvls = np.linspace(0, 30E3, 7)
 cp = ax.contourf(Z, R, F, levels=list(lvls))
 fig.colorbar(cp) # Add a colorbar to a plot
 ax.set_title('Effective potential')
