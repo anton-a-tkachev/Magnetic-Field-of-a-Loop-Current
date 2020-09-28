@@ -28,7 +28,7 @@ COILS = [
         'OD'    :   0.600,
         'DZ'    :   0.050,
         'W'     :   200,
-        'I'     :   150,
+        'I'     :   50,
         'NR'    :   2,
         'NZ'    :   5
     },
@@ -50,7 +50,7 @@ COILS = [
         'OD'    :   0.900,
         'DZ'    :   0.200,
         'W'     :   1000,
-        'I'     :   1400, 
+        'I'     :   500, 
         'NR'    :   3,
         'NZ'    :   10
     }
@@ -90,7 +90,7 @@ def fun(t, x):
     [A, Br, Bz] = ABC(x[0], x[1], COILS)
     return [x[2], x[3], (eta/gamma)**2*(P0 - A)*Bz, (eta/gamma)**2*(P0 - A)*Br]     # xdot
 
-solution = solve_ivp(fun, (0, 1E-8), x0, method='RK45', max_step=1e-12)
+solution = solve_ivp(fun, (0, 1E-7), x0, method='RK45', max_step=1e-10)
 print(solution['message'])
 sol = solution['y']
 R = 100*sol[0,:]
